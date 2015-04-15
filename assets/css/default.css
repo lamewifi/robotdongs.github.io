@@ -115,6 +115,7 @@ img.site-icon {
 	width: 250px;
 	height: 250px;
 	transition-duration: .25s;
+	border-radius: 50%;
 	opacity: .8;
 }
 
@@ -123,6 +124,7 @@ img.site-icon:hover {
 	width: 200px;
 	height: 200px;
 	opacity: 1;
+	
 }
 
 img.site-icon-small {
