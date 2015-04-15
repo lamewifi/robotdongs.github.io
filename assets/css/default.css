@@ -112,8 +112,8 @@ img {
 
 img.site-icon {
 	margin-top: -50px;
-	width: 200px;
-	height: 200px;
+	width: 150px;
+	height: 150px;
 	transition-duration: .25s;
 	border-radius: 50%;
 	opacity: .8;
@@ -137,11 +137,11 @@ img.site-icon-small {
 
 img.site-icon-page {
 	margin-top: -50px;
-	width: 200px;
-	height: 200px;
-	opacity: .8;
+	width: 150px;
+	height: 150px;
 	transition-duration: .25s;
 	border-radius: 50%;
+	opacity: .8;
 	
 }
 
