@@ -1,0 +1,51 @@
+# Dependencies
+markdown:	redcarpet
+pygments:	true
+
+# Permalinks
+permalink:	/blog/:title
+
+# Setup
+title:		Thinny
+tagline:	'blog'
+description:	'My personal blog.'
+url:		http://lamewifi.com
+
+author:
+  name:		'Austin Miller'
+  url:		https://linkedin/AustinMiller
+
+paginate:	5
+
+# Custom vars
+icon:		/assets/images/icon.png
+cover:		/assets/images/cover.jpg
+
+social:
+  - icon:	twitter
+    url:	https://twitter.com/robotdongs
+    desc:	Follow me on twitter
+
+  - icon:	github
+    url:	https://github.com/robotdongs
+    desc:	Fork me on github
+
+  - icon:	linkedin
+    url:	https://google.com/AustinMiller
+    desc:	Add me on linkedin
+
+menu:
+  - title:	Home
+    url:	/home/
+    
+  - title:	About
+    url:	/about/about.html
+
+  - title: blog
+    url: /
+    
+copyright:
+  author:	A_M Bots
+  url:		http://lamewifi.net
+  type_title:	Some rights reserved
+  type_url:	http://creativecommons.org/licenses/by-nc/2.5

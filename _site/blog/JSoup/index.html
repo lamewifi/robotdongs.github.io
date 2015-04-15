@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="http://gmpg.org/xfn/11" rel="profile">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link rel="canonical" href="http://lamewifi.com/blog/JSoup" />
+	<meta name="description" content="##BackGround: The first major version of my Installment billing calculator worked fine, However it is a huge pain to update..." />
+	<meta property="og:description" content="##BackGround: The first major version of my Installment billing calculator worked fine, However it is a huge pain to update..." />
+	<meta itemprop="image" content="http://lamewifi.com/assets/images/icon.png" />
+	<meta property="og:image" content="http://lamewifi.com/assets/images/icon.png" />
+	<meta property="og:title" content="Using JSoup to scrape a Webpage." />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="http://lamewifi.com/blog/JSoup" />
+	<meta property="og:site_name" content="Thinny" />
+	<title>Using JSoup to scrape a Webpage. &middot; Thinny</title>
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="HandheldFriendly" content="True" />
+	<meta name="MobileOptimized" content="320" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" media="only screen and (min-width: 1001px)" href="/assets/css/desktop.css" />
+	<link rel="stylesheet" type="text/css" media="only screen and (max-width: 1000px)" href="/assets/css/mobile.css" />
+	<link href="/assets/css/genericons.css" type="text/css" rel="stylesheet" />
+	<link href="/assets/css/syntax.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+	<link rel="apple-touch-icon" href="http://lamewifi.com/assets/images/icon.png">
+	<link rel="shortcut icon" href="http://lamewifi.com/assets/images/favicon.ico">
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="http://lamewifi.com/atom.xml">
+</head>
+<body>
+	<header class="clean" style="background-image: url(/assets/images/cover.jpg);height: 100%;">
+	
+	<label class="menu" for="_1">
+	<span class="genericon genericon-menu"></span>
+</label>
+<input id="_1" type="checkbox">
+<div class="menu-content">
+	<div class="menu" style="background-color: #777; z-index: -1;"></div>
+	
+	<a href="/home/">Home</a><br>
+	
+	<a href="/about/about.html">About</a><br>
+	
+	<a href="/">blog</a><br>
+	
+</div>
+<div class="social-links">
+	
+	<a href="https://twitter.com/robotdongs" target="_blank" title="Follow me on twitter"><span class="genericon genericon-twitter"></span></a>
+	
+	<a href="https://github.com/robotdongs" target="_blank" title="Fork me on github"><span class="genericon genericon-github"></span></a>
+	
+	<a href="https://google.com/AustinMiller" target="_blank" title="Add me on linkedin"><span class="genericon genericon-linkedin"></span></a>
+	
+</div>
+	<div id="post-info">
+		<h1>Using JSoup to scrape a Webpage.</h1>
+		
+		<a class="site-title" href="http://lamewifi.com"><img src="/assets/images/icon.png" class="site-icon-small">Thinny</a>, in 07 April 2015
+	</div>
+	<div id="nav-icon" style="bottom: 60px;">
+		<a class="scroll" data-speed="1000" href="#article"><span class="genericon genericon-expand"></span></a>
+	</div>
+</header>
+<div id="article">
+	<h2>BackGround:</h2>
+
+<p>The first major version of my Installment billing calculator worked fine, However it is a huge pain to update and maintain. In its current form all pricing information is hard-coded into the app. When prices and phone availability change I  have to manually update the app with the new information. I needed a simple way to automatically update the relevant pricing information for my app. </p>
+
+<p>After doing a little bit of research I came across JSoup. JSoup is a third party library that provides a somewhat simple API for extracting, reading or changing data contained in HTML documents using DOM, CSS and &quot;JQuery-like methods&quot;.</p>
+
+<p>JSoup will allow me to scrape the relevant pricing information from each respective carrier’s website, I could then store this information on online and use Java&#39;s built in URL class with a Scanner object to read the contents of the file(s) and update the relevant variables in my app.</p>
+
+<p><a href="http://jsoup.org/">Get JSoup Here</a></p>
+
+<p>I figured today I&#39;d provide a simple tutorial just to show how easy it is to use JSoup. This will be a very sweet and short simple program that will give us the vote count for all the links on the front page of reddit, subreddit the link was submitted and the username of the submitter. </p>
+
+<h2>Getting Started with JSoup:</h2>
+
+<p>Once you’ve got JSoup installed  open up your favorite IDE or text editor, and lets get started. </p>
+
+<h3>Import Classes and Exceptions:</h3>
+
+<p>Import these classes and exceptions.
+    1.  import org.jsoup.Jsoup;
+    2.  import org.jsoup.nodes.Document;
+    2.  import org.jsoup.select.Elements;
+    3.  import org.jsoup.select.Element;
+    4.  import java.io.IOException;</p>
+
+<p>Once you&#39;ve got your import statements we&#39;re going to declare a Document variable and Elements variable. Assuming you&#39;ve created your main method your code should look like this:</p>
+
+<hr>
+<div class="highlight"><pre><code class="language-Java" data-lang="Java"><span class="kn">import</span> <span class="nn">org.jsoup.Jsoup</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.jsoup.nodes.Document</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.jsoup.select.Elements</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.jsoup.select.Element</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">main</span><span class="o">{</span>
+
+<span class="kd">private</span> <span class="kd">static</span> <span class="n">Elements</span> <span class="n">elements</span><span class="o">;</span>
+
+  <span class="kd">private</span> <span class="kd">static</span> <span class="n">Document</span> <span class="n">doc</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span> <span class="n">args</span><span class="o">[]){</span>
+
+   <span class="o">}</span><span class="c1">//End main method</span>
+
+<span class="o">}</span><span class="c1">//End class</span>
+</code></pre></div>
+<hr>
+
+<p>In your main method add a <strong>try...catch</strong> statement and catch an IOException leaving the try block blank for now. In addition to the try..catch statment declare 3 variables. Two Elements variables, and a Document Variable. Your code should now look like this:</p>
+
+<hr>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">soupTest</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.jsoup.Jsoup</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.jsoup.nodes.Document</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.jsoup.select.Elements</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.jsoup.select.Element</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+ <span class="kd">public</span> <span class="kd">class</span> <span class="nc">main</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Document</span> <span class="n">doc</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Elements</span> <span class="n">getRawElements</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Elements</span> <span class="n">getScore</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Elementss</span> <span class="n">getRawUser</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Elements</span> <span class="n">getFinalUser</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span> <span class="n">args</span><span class="o">[]){</span>
+
+        <span class="k">try</span><span class="o">{</span>
+
+            <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">IOException</span> <span class="n">IOE</span><span class="o">){</span>
+
+        <span class="o">}</span><span class="c1">//End try...catch statement</span>
+
+     <span class="o">}</span><span class="c1">//End main</span>
+
+<span class="o">}</span><span class="c1">//End class</span>
+</code></pre></div>
+<hr>
+
+<h2>What we have so far...</h2>
+
+<p>The <strong>Document</strong> class is used to parse (for the lack of a better term) an HTML document similar to a web-browser. The <a href="http://jsoup.org/apidocs/org/jsoup/nodes/Document.html">Document</a> class only has one constructor and only accepts one String argument. For our purposes this string will be a URL to a web-page, but it can also be directory location of a locally hosted HTML file or fragment.</p>
+
+<p>The <a href="http://jsoup.org/apidocs/org/jsoup/select/Elements.html"> Elements </a> class is what you’ll use to help scrape the web-page, sort-of-like an ArrayList, in that an Elements object will hold a bunch of stuff. We ‘construct’ our Elements object with using the Document object (‘doc) we created earlier. </p>
+
+<p>In your main method(inside of the try statement) add the following code:</p>
+
+<hr>
+<div class="highlight"><pre><code class="language-Java" data-lang="Java">    <span class="n">doc</span> <span class="o">=</span> <span class="n">JSoup</span><span class="o">.</span><span class="na">connect</span><span class="o">(</span><span class="s">&quot;http://www.reddit.com&quot;</span><span class="o">).</span><span class="na">get</span><span class="o">();</span>
+    <span class="n">getRawElements</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="err">“</span><span class="n">div</span><span class="err">”</span><span class="o">);</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">getRawElements</span><span class="o">.</span><span class="na">tostring</span><span class="o">);</span>
+</code></pre></div>
+<hr>
+
+<p>Run the code now and you should get an output with a lot of text. What you&#39;re seeing are the various text attributes of all the various &quot;Div&quot; tags in the html doccument reddit.com</p>
+
+<h3>Getting more selective</h3>
+
+<p>Using the <strong>select method</strong> from the Document class, we are creating an Elements Object (elements) that will contain all of the &quot;div&quot; HTML elements present in the HTML document (reddit.com). </p>
+
+<p>Obviously this won&#39;t really work for us. It just returns the raw HTML of the front page. 
+We&#39;ll have to run a few select statements to get what we want But before we can make our element selection more relevant we have to know what to select for. Thankfully most modern browsers can really help us out here. In chrome if I go to reddit.com, move my mouse over a link vote total, right-click and inspect element I can usually find what I&#39;m looking for. </p>
+
+<p><img src="/media/2015-04-07-JSoup/redditIE.png" alt="img3"></p>
+
+<p>Do you see where it is highlighted towards the top of the image? &quot;Div.score.unvoted&quot; that&#39;s what we&#39;re looking for. We can use the above div class to help refine our element search. Change the current getFinalElements = doc.select(&quot;div&quot;); from &quot;div&quot; to: </p>
+
+<hr>
+<div class="highlight"><pre><code class="language-Java" data-lang="Java"><span class="n">getRawElements</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="s">&quot;div[class=score unvoted]&quot;</span><span class="o">)</span>
+</code></pre></div>
+<hr>
+
+<p>The use of element[class=name] allows us to select all the elements within all of the div tags that belong to the &quot;score unvoted&quot; class. We still need to refine our element search a little more before we can get our desired results. </p>
+
+<p>If you look at the reddit page source again you&#39;ll notice that the links we want are actually within a div tag with an id of &quot;siteTable&quot;. Pulling our &quot;div.score.unvoted&quot; selection from all the elements contained in the div tag with the ID of &quot;siteTable&quot; should only provide us links with actual scores eliminating  most of the &quot;•&quot; we got for some of the links. I&#39;m sure I could find the exact div tag class, ID and attributes to only get the scores but using an <strong>if...else</strong> statement would be a little faster for removing the last &quot;•&quot; being pulled than searching for that one specific tag.</p>
+
+<p>We&#39;ll use getFinalElements</p>
+
+<hr>
+<div class="highlight"><pre><code class="language-Java" data-lang="Java"><span class="n">getFinalElements</span> <span class="o">=</span> <span class="n">getRawElements</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="s">&quot;div#siteTable&quot;</span><span class="o">);</span> 
+</code></pre></div>
+<hr>
+
+<p>The #siteTable indicates the ID name of the div tag we&#39;re looking for. There are a lot of diffrent types of selectors you can find a lot of them <a href="http://jsoup.org/cookbook/extracting-data/selector-syntax">Here.</a> Your code should now look something similar to this:</p>
+
+<hr>
+<div class="highlight"><pre><code class="language-Java" data-lang="Java"><span class="kn">import</span> <span class="nn">org.jsoup.Jsoup</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.jsoup.nodes.Document</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.jsoup.select.Elements</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.jsoup.select.Element</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+ <span class="kd">public</span> <span class="kd">class</span> <span class="nc">main</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Document</span> <span class="n">doc</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Elements</span> <span class="n">getRawElements</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Elements</span> <span class="n">getScore</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Elementss</span> <span class="n">getRawUser</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Elements</span> <span class="n">getFinalUser</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span> <span class="n">args</span><span class="o">[]){</span>
+        <span class="n">Document</span> <span class="n">doc</span><span class="o">;</span>
+        <span class="n">Elements</span> <span class="n">getUserName</span><span class="o">;</span>
+        <span class="n">Elements</span> <span class="n">getFinalUserNames</span><span class="o">;</span>
+        <span class="n">Elements</span> <span class="n">getRawElements</span><span class="o">;</span>
+        <span class="n">Elements</span> <span class="n">getFinalElements</span><span class="o">;</span>
+        <span class="k">try</span><span class="o">{</span>
+             <span class="n">doc</span> <span class="o">=</span> <span class="n">Jsoup</span><span class="o">.</span><span class="na">connect</span><span class="o">(</span><span class="s">&quot;http://www.reddit.com&quot;</span><span class="o">).</span><span class="na">get</span><span class="o">();</span>
+            <span class="n">getRawElements</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="s">&quot;div#siteTable&quot;</span><span class="o">);</span>
+            <span class="n">getFinalElements</span> <span class="o">=</span> <span class="n">getRawElements</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="s">&quot;div[class=score unvoted]&quot;</span><span class="o">);</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">getFinalElements</span><span class="o">.</span><span class="na">text</span><span class="o">());</span>
+            <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">IOException</span> <span class="n">IOE</span><span class="o">){</span>
+
+        <span class="o">}</span><span class="c1">//End try...catch statement</span>
+
+     <span class="o">}</span><span class="c1">//End main</span>
+
+<span class="o">}</span><span class="c1">//End class</span>
+</code></pre></div>
+<hr>
+
+<p>To finish with the vote counts we&#39;re going to add a for statement with an <strong>if</strong> statement nested inside. </p>
+
+<hr>
+<div class="highlight"><pre><code class="language-Java" data-lang="Java">       <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="o">(</span><span class="n">getFinalElements</span><span class="o">.</span><span class="na">size</span><span class="o">());</span><span class="n">i</span><span class="o">++){</span>
+                <span class="k">if</span> <span class="o">((</span><span class="n">getFinalElements</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">text</span><span class="o">().</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="o">)){</span>
+                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">getFinalElements</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">text</span><span class="o">());</span>
+                <span class="o">}</span>
+</code></pre></div>
+<hr>
+
+<p>We know the votes on the front page will always have at least more than 9 votes, by requiring  the string length to be greater than 1 character in length will insure that we only get the vote total from front page links. </p>
+
+<p>We could stop here, but what if you want to know the username and subreddit for the link? </p>
+
+<p>To do that we&#39;ll need to select diffrent elements. We need to select a &quot;p&quot; tag of class &quot;tagline&quot; and the text of an &quot;a&quot; tag with a &quot;[href] attribute. We can use the getUserNAme and getFinalUserName variables to store the selections.</p>
+
+<hr>
+<div class="highlight"><pre><code class="language-Java" data-lang="Java">         <span class="n">getUserName</span> <span class="o">=</span> <span class="n">getRawElements</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="s">&quot;p[class=tagline&quot;</span><span class="o">);</span>
+            <span class="n">getFinalUserNames</span> <span class="o">=</span> <span class="n">getUserName</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="s">&quot;a[href]&quot;</span><span class="o">);</span>
+</code></pre></div>
+<hr>
+
+<p>I&#39;m selecing all the &quot;p&quot; tags of the &quot;tagline&quot; class that are <strong>only</strong> contained within the div tag with the ID of &quot;siteTable&quot; (which are now stored in variable getRawElements).  From that selection we want to grab the text of the Href attributes that are within the &quot;p&quot; tag we just selected.</p>
+
+<p>Now we&#39;ve got to &quot;sync&quot; the names and subreddits that we&#39;ve scraped with the correct vote counts, all we need is a enhanced for loop and a single integer variable.</p>
+
+<hr>
+<div class="highlight"><pre><code class="language-Java" data-lang="Java">        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="k">for</span><span class="o">(</span><span class="n">Element</span> <span class="nl">x:</span> <span class="n">getFinalElements</span><span class="o">){</span>
+         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Votes: &quot;</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="na">text</span><span class="o">());</span> <span class="c1">//Will print the vote counts.</span>
+         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Sub-reddit: &quot;</span><span class="n">getFinalUserNames</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">count</span><span class="o">).</span><span class="na">text</span><span class="o">());</span>
+    <span class="n">count</span><span class="o">++;</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;UserName: &quot;</span><span class="n">getFinalUserNames</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">count</span><span class="o">).</span><span class="na">text</span><span class="o">());</span>
+    <span class="n">count</span><span class="o">++;</span>    
+
+    <span class="o">}</span>
+</code></pre></div>
+<hr>
+
+<p>We couldn&#39;t just loop through the lists like we normally would for display, because we&#39;ve got to place two strings (getFinalUserNames) between each vote count (x), all the more challenging when the username and subreddit are stored in even/odd index values (meaning I can&#39;t rely on &quot;i&quot; in the loop.)  I&#39;m sure I could have created a more elgant solution, but this way was this way was certainly the fastest. </p>
+
+<h3>Your Final Code:</h3>
+
+<hr>
+<div class="highlight"><pre><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span> <span class="n">args</span><span class="o">[]){</span>
+        <span class="n">Document</span> <span class="n">doc</span><span class="o">;</span>
+        <span class="n">Elements</span> <span class="n">getUserName</span><span class="o">;</span>
+        <span class="n">Elements</span> <span class="n">getFinalUserNames</span><span class="o">;</span>
+        <span class="n">Elements</span> <span class="n">getRawElements</span><span class="o">;</span>
+        <span class="n">Elements</span> <span class="n">getFinalElements</span><span class="o">;</span>
+        <span class="k">try</span><span class="o">{</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="n">Jsoup</span><span class="o">.</span><span class="na">connect</span><span class="o">(</span><span class="s">&quot;http://www.reddit.com&quot;</span><span class="o">).</span><span class="na">get</span><span class="o">();</span>
+            <span class="n">getRawElements</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="s">&quot;div#siteTable&quot;</span><span class="o">);</span>
+            <span class="n">getFinalElements</span> <span class="o">=</span> <span class="n">getRawElements</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="s">&quot;div[class=score unvoted]&quot;</span><span class="o">);</span>
+            <span class="n">getUserName</span> <span class="o">=</span> <span class="n">getRawElements</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="s">&quot;p[class=tagline&quot;</span><span class="o">);</span>
+            <span class="n">getFinalUserNames</span> <span class="o">=</span> <span class="n">getUserName</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="s">&quot;a[href]&quot;</span><span class="o">);</span>
+            <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+          <span class="k">for</span> <span class="o">(</span><span class="n">Element</span> <span class="nl">x:</span> <span class="n">getFinalElements</span><span class="o">){</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Votes: &quot;</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="na">text</span><span class="o">());</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;SubReddit: &quot;</span> <span class="o">+</span> <span class="n">getFinalUserNames</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">count</span><span class="o">).</span><span class="na">text</span><span class="o">());</span>
+                <span class="n">count</span><span class="o">++;</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;UserName: &quot;</span> <span class="o">+</span> <span class="n">getFinalUserNames</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">count</span><span class="o">).</span><span class="na">text</span><span class="o">());</span>
+                <span class="n">count</span><span class="o">++;</span>
+            <span class="o">}</span>
+
+        <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">ioe</span><span class="o">){</span>
+        <span class="o">}</span>
+    <span class="o">}</span><span class="c1">//End Main</span>
+</code></pre></div>
+<hr>
+
+<p>I&#39;ve barely touched on the surface when it comes to using JSoup Library, but Hopefully I&#39;ve given you enough of a start to give you some ideas of what you can do with the libary. </p>
+
+</div>
+
+<footer class="clean" style="background-image: url(/assets/images/cover.jpg);height: 75%; min-height: 500px;">
+	<div id="nav-icon" style="top: 25px;">
+		<a class="scroll" data-speed="1000" href="#article"><span class="genericon genericon-collapse"></span></a>
+	</div>
+	<div id="post-info">
+		<h3>Featured post</h3>
+		<a href="/blog/myFirstApp">
+			<h1>My First App</h1>
+			
+		</a>
+	</div>
+	<p class="copyright">&copy;2015, <a href="http://lamewifi.net" target="_blank">A_M Bots</a>. <a href="http://creativecommons.org/licenses/by-nc/2.5" target="_blank">Some rights reserved</a>.</p>
+</footer>
+
+<script src="/assets/js/smooth-scroll.js"></script>
+</body>
+</html>
