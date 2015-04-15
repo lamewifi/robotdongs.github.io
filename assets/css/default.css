@@ -116,14 +116,14 @@ img.site-icon {
 	height: 200pxpx;
 	transition-duration: .25s;
 	border-radius: 50%;
-	opacity: .8;
+	opacity: .6;
 }
 
 img.site-icon:hover {
 	margin-top: -50px;
 	width: 200px;
 	height: 200px;
-	opacity: .5;
+	opacity: 1;
 	
 }
 
@@ -141,7 +141,7 @@ img.site-icon-page {
 	height: 200px;
 	transition-duration: .25s;
 	border-radius: 50%;
-	opacity: .8;
+	opacity: .6;
 	
 }
 
